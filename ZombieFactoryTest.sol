@@ -17,7 +17,7 @@ contract ZombieFactory{
     mapping (address =>uint) ownerZombieCount; //bir adrestte kaç tane zombi olduğunu belirlemek için kullanılır.
     
     Zombie[] public zombies;
-    function createZombie(string memory _name, uint _dna) private{
+    function createZombie(string memory _name, uint _dna) internal{ //daha sonra yazacağımız kontratla iletşime geçmesini istediğimiz için internal yapıyoruz.
         zombies.push(Zombie(_name, _dna));
         uint id = zombies.length - 1; //dizideki ilk öğrenin indeksi 0 olduğundan -1 kullanmalıyız.
         zombieToOwner[id] = msg.sender; //zombinin ıdsi altında kontratla iletişme geçen hesap tutulur.
