@@ -5,7 +5,7 @@ import "./IERC20Test.sol";
 contract ERC2OTest is IERC20Test {
     string public constant symbol= "UTK"; // token sembolü.
     string public constant name ="Utku Token"; // token adı.
-    uint8 public constant decimals= 18; // token sembolü.
+    uint8 public constant decimals= 18; // token basamağı.
     uint256 private constant totalSupply_ =10000; // tokenın toplam sayısı.
     
     mapping (address=>uint) private balances_;
