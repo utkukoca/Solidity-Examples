@@ -24,7 +24,7 @@ contract ERC2OTest is IERC20Test {
     function transfer(address recipient,uint256 amount)public virtual override returns (bool success) {
         if (amount<=balanceOf(msg.sender)){
             balances_[msg.sender]-=amount;
-            balances_[msg.sender]+=amount;
+            balances_[recipient]+=amount;
             return true;
         }
         return false;
