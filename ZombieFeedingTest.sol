@@ -22,7 +22,7 @@ contract ZombieFeeding is ZombieFactory{
     
     KittyInterface kittyContract;
 
-    function setKittyContractAddress(address _address) external { //bu sayede eğer CryptoKitties kontratına bir şey olursa bile istediğimiz zaman değiştirebileceğiz şimdilik herks değiştirebiliyor sonraki güncellemde sadece owner değiştirebilecek. 
+    function setKittyContractAddress(address _address) external { //bu sayede eğer CryptoKitties kontratına bir şey olursa bile istediğimiz zaman değiştirebileceğiz ve bunu sadece ownable yapabilecek.
       kittyContract = KittyInterface(_address);}
     
     function feedAndMultiply(uint _zombieId, uint _targetDna, string memory _species) public {
