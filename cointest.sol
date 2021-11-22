@@ -17,7 +17,7 @@ contract COIN_TEST{
     error InsufficientBalance(uint requested, uint available); //hata mesajının neden alındığını bilgilendirir.
     
     function sent(address receiver, uint amount) public {
-        if (amount > balances[msg.sender]) //hatanon hangi durumda verileceğini gösterir
+        if (amount > balances[msg.sender]) //hatanın hangi durumlarda verileceğini gösterir
              revert InsufficientBalance({
                  requested:amount,
                  available:balances[msg.sender]
