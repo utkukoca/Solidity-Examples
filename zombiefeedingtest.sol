@@ -1,5 +1,6 @@
 pragma  solidity  ^0.8.4;
 
+
 import "./zombiefactory.sol";
 
 abstract contract KittyInterface { //zombilerimizi beslemek için CryptoKittieleri kullanalım bunun için kriptokedilerin genlerini okumamız gerekir
