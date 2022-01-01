@@ -1,15 +1,24 @@
 pragma  solidity  ^0.8.4;
 
-contract ZombieFactory{
+import "./ownable.sol";
+
+contract ZombieFactory is Ownable{
     event NewZombie(uint zombieId, string name, uint dna);
     
     uint dnaDigits=16; //zombilerimizin dnası 16 haneli bir sayıyla belirlenecek.
     
     uint dnaModule=10**dnaDigits; //16 haneli olduğuna emin olmak ve daha sonra bir tamsayıyı 16 basamağa kısaltmak için % modül operatörünü kullanabiliriz.
    
+   uint cooldownTime = 1 days;
+   
     struct Zombie{  //zombilerimizin özelliklerini tutmak için struct yapsını kullanalım ve iki tane özellik ekleyelim.
         string name;
         uint dna;
+        uint32 level;
+        uint32 readyTime;
+        uint16 winCount; //zombimizin kazanma oranı.
+        uint16 lossCount; //zombimizin kaybetme oranı.
+        
         
     }
     
@@ -17,8 +26,8 @@ contract ZombieFactory{
     mapping (address =>uint) ownerZombieCount; //bir adrestte kaç tane zombi olduğunu belirlemek için kullanılır.
     
     Zombie[] public zombies;
-    function createZombie(string memory _name, uint _dna) internal{ //daha sonra yazacağımız kontratla iletşime geçmesini istediğimiz için internal yapıyoruz.
-        zombies.push(Zombie(_name, _dna));
+    function createZombie(string memory _name, uint _dna) internal { 
+        zombies.push(Zombie(_name, _dna , 1 , uint32(block.timestamp+cooldownTime),0,0));
         uint id = zombies.length - 1; //dizideki ilk öğrenin indeksi 0 olduğundan -1 kullanmalıyız.
         zombieToOwner[id] = msg.sender; //zombinin ıdsi altında kontratla iletişme geçen hesap tutulur.
         ownerZombieCount[msg.sender]++;//bu adresin sahip olduğu zombi miktarını arttıralım.
