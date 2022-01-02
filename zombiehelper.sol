@@ -26,11 +26,11 @@ contract ZombieHelper is ZombieFeeding {
       zombies[_zombieId].level++ ; //en sonunda zombinin leveli yükseliyor.
     }
     
-    function changeName(uint _zombieId, string calldata _newName) external aboveLevel(2, _zombieId) ownerOf(_zombieId) { //2 level ve üstü zombiler yapabilir ve bu zombiye sahip olması gerekiyor
+    function changeName(uint _zombieId, string calldata _newName) external aboveLevel(2, _zombieId) onlyOwnerOf(_zombieId) { //2 level ve üstü zombiler yapabilir ve bu zombiye sahip olması gerekiyor
       zombies[_zombieId].name = _newName; //bu şekilde zombinin ismini değiştirebilir.
     }
 
-    function changeDna(uint _zombieId, uint _newDna) external aboveLevel(20, _zombieId) ownerOf(_zombieId) { //20 level ve üstü zombiler yapabilir ve bu zombiye sahip olması gerekiyor
+    function changeDna(uint _zombieId, uint _newDna) external aboveLevel(20, _zombieId) onlyOwnerOf(_zombieId) { //20 level ve üstü zombiler yapabilir ve bu zombiye sahip olması gerekiyor
       zombies[_zombieId].dna = _newDna; //zombinin dnasını değiştirebilir.
     }
     function getZombiesByOwner(address _owner) external view returns(uint[] memory) {
