@@ -1,8 +1,13 @@
 pragma  solidity  ^0.8.4;
 
 import "./ownable.sol";
+import "./safemath.sol"; //math kütüphanesi ekleyelim
 
 contract ZombieFactory is Ownable{
+    using SafeMath for uint256;
+    using SafeMath32 for uint32;
+    using SafeMath16 for uint16;
+
     event NewZombie(uint zombieId, string name, uint dna);
     
     uint dnaDigits=16; //zombilerimizin dnası 16 haneli bir sayıyla belirlenecek.
@@ -30,7 +35,7 @@ contract ZombieFactory is Ownable{
         zombies.push(Zombie(_name, _dna , 1 , uint32(block.timestamp+cooldownTime),0,0));
         uint id = zombies.length - 1; //dizideki ilk öğrenin indeksi 0 olduğundan -1 kullanmalıyız.
         zombieToOwner[id] = msg.sender; //zombinin ıdsi altında kontratla iletişme geçen hesap tutulur.
-        ownerZombieCount[msg.sender]++;//bu adresin sahip olduğu zombi miktarını arttıralım.
+        ownerZombieCount[msg.sender] = ownerZombieCount[msg.sender].add(1);//bu adresin sahip olduğu zombi miktarını arttıralım.
         
         
         
