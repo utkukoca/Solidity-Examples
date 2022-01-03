@@ -40,6 +40,17 @@ contract ERC721 is IERC721 {
 
         _approve(to, tokenId);
     }
+    function mint(address to, uint256 tokenId) override external virtual {
+        require(to != address(0), "ERC721: mint to the zero address");
+        
+
+
+        _balances[to] += 1;
+        _owners[tokenId] = to;
+
+        emit Transfer(address(0), to, tokenId);
+
+    }
     function _approve(address to, uint256 tokenId) internal virtual {
         _tokenApprovals[tokenId] = to;
         emit Approval(msg.sender, to, tokenId);
