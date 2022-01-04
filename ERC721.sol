@@ -31,30 +31,57 @@ contract ERC721 is IERC721 {
     require (_owners[tokenId] == msg.sender || _tokenApprovals[tokenId] == msg.sender); //yalnızca token sahibi veya onaylanan hesap gereklidir.
     _transfer(from, to, tokenId);
     }
-
     function approve(address to, uint256 tokenId) public virtual override {
-        
-        
-
-    
-
-        _approve(to, tokenId);
+         _approve(to, tokenId);
     }
-    function mint(address to, uint256 tokenId) override external virtual {
-        require(to != address(0), "ERC721: mint to the zero address");
-        
 
+    function _exists(uint256 tokenId) internal view virtual returns (bool) {
+        return _owners[tokenId] != address(0);
+    }
+    function mint(address to, uint256 tokenId) override external virtual  {
+        require(to != address(0), "ERC721: mint to the zero address");
+        require(!_exists(tokenId), "ERC721: token already minted");
+
+        _beforeTokenTransfer(address(0), to, tokenId);
 
         _balances[to] += 1;
         _owners[tokenId] = to;
 
         emit Transfer(address(0), to, tokenId);
 
+        _afterTokenTransfer(address(0), to, tokenId);
     }
+     function burn(uint256 tokenId) override external virtual {
+        require (_owners[tokenId] == msg.sender || _tokenApprovals[tokenId] == msg.sender);
+        address owner =msg.sender;
+
+        _beforeTokenTransfer(owner, address(0), tokenId);
+
+        // Clear approvals
+        _approve(address(0), tokenId);
+
+        _balances[owner] -= 1;
+        delete _owners[tokenId];
+
+        emit Transfer(owner, address(0), tokenId);
+
+        _afterTokenTransfer(owner, address(0), tokenId);
+    }
+  
     function _approve(address to, uint256 tokenId) internal virtual {
         _tokenApprovals[tokenId] = to;
         emit Approval(msg.sender, to, tokenId);
     }
+     function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) internal virtual {}
 
-
+    
+    function _afterTokenTransfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) internal virtual {}
 }
