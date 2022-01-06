@@ -19,19 +19,19 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     using Address for address;
     using Strings for uint256;
 
-    // Token name
+    // Token Adı
     string private _name;
 
-    // Token symbol
+    // Token Sembolü
     string private _symbol;
 
-    // Mapping from token ID to owner address
+    //Token ID ile Adressi eşleştiriyor(Mapping)
     mapping(uint256 => address) private _owners;
 
-    // Mapping owner address to token count
+    //Addres ile sahip olduğu token sayısı eşleştiriyor(Mapping)
     mapping(address => uint256) private _balances;
 
-    // Mapping from token ID to approved address
+    //Token ID ile onaylı addresi eşleştiriyor(Mapping)
     mapping(uint256 => address) private _tokenApprovals;
 
     // Mapping from owner to operator approvals
@@ -40,7 +40,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
-    constructor(string memory name_, string memory symbol_) {
+    constructor(string memory name_, string memory symbol_) { //kontrat yaratıldığında üretilir.
         _name = name_;
         _symbol = symbol_;
     }
@@ -58,17 +58,17 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-balanceOf}.
      */
-    function balanceOf(address owner) public view virtual override returns (uint256) {
-        require(owner != address(0), "ERC721: balance query for the zero address");
-        return _balances[owner];
+    function balanceOf(address owner) public view virtual override returns (uint256) { //bir adresin sahip olduğu token miktarını sorgulamak için kullanırız.
+        require(owner != address(0), "ERC721: balance query for the zero address"); //(0x00000000...00) adresinden farklı biri adres olmak zorunda.
+        return _balances[owner]; //adresdeki token miktarını gösterir
     }
 
-    /**
+    /** 
      * @dev See {IERC721-ownerOf}.
      */
-    function ownerOf(uint256 tokenId) public view virtual override returns (address) {
-        address owner = _owners[tokenId];
-        require(owner != address(0), "ERC721: owner query for nonexistent token");
+    function ownerOf(uint256 tokenId) public view virtual override returns (address) { //bir tokenin hangi adreste olduğu bilgisini verir.
+        address owner = _owners[tokenId]; //mappingi çalıştırır.
+        require(owner != address(0), "ERC721: owner query for nonexistent token"); //(0x00000000...00) adresinden farklı biri adres olmak zorunda.
         return owner;
     }
 
@@ -192,10 +192,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     }
 
     /**
-     * @dev Safely transfers `tokenId` token from `from` to `to`, checking first that contract recipients
-     * are aware of the ERC721 protocol to prevent tokens from being forever locked.
+     * @dev Güvenli transfer `tokenId` tokeni `from`dan  `to ya ilk olarak kontrat alıcısını kontrol ederek aktarır. 
+     * sonsuza kadar kitli kalmasını önlemek için ERC721in farkındadır.
      *
-     * `_data` is additional data, it has no specified format and it is sent in call to `to`.
+     * `_data` ekstra bie datadır,spesik bir formatı yoktur ve çağrıda 'to' ya gönderilir.
      *
      * This internal function is equivalent to {safeTransferFrom}, and can be used to e.g.
      * implement alternative mechanisms to perform token transfer, such as signature-based.
@@ -220,23 +220,23 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     }
 
     /**
-     * @dev Returns whether `tokenId` exists.
+     * @dev Returns tokenId'nin var olup olmadığını döndürür
      *
-     * Tokens can be managed by their owner or approved accounts via {approve} or {setApprovalForAll}.
+     * Tokenler sahipleri veya izin verdikleri tarafından yönetilebilir(sayesinde: {approve} or {setApprovalForAll}).
      *
-     * Tokens start existing when they are minted (`_mint`),
-     * and stop existing when they are burned (`_burn`).
+     * Tokenler mint edildikten sonra var olmaya başlarlar (`_mint`),
+     * ve var olmayı burn olduktan sonra durdururlar.(`_burn`).
      */
     function _exists(uint256 tokenId) internal view virtual returns (bool) {
         return _owners[tokenId] != address(0);
     }
 
     /**
-     * @dev Returns whether `spender` is allowed to manage `tokenId`.
+     * @dev spenderın tokenıdyi yönetmesine izin verip verilmediği döndürülür..
      *
-     * Requirements:
+     * Gereklilikler:
      *
-     * - `tokenId` must exist.
+     * - `tokenId`var olmalı.
      */
     function _isApprovedOrOwner(address spender, uint256 tokenId) internal view virtual returns (bool) {
         require(_exists(tokenId), "ERC721: operator query for nonexistent token");
