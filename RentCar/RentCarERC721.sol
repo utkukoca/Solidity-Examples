@@ -26,11 +26,11 @@ contract ERC721 is IERC721 {
         require(owner != address(0), "ERC721: owner query for nonexistent token");
         return owner;
     }
+    //rentcar
     function rentcar(address payable owner, uint256 tokenId) external payable {
-    
-        
         require (_owners[tokenId] == msg.sender || _tokenApprovals[tokenId] == msg.sender);
         require(msg.value==HourFee);
+        _transfer(owner,address(this),tokenId);
         owner.transfer(msg.value);
     }
 
@@ -98,4 +98,3 @@ contract ERC721 is IERC721 {
         address to,
         uint256 tokenId
     ) internal virtual {}
-}
